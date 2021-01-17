@@ -2,8 +2,6 @@ module Main (get_maze, print_maze, is_wall, place_player, move, can_move, game_l
 
 import System.Environment
 
-maze_path = "C:\\Users\\joaom\\Desktop\\uni\\Programming Paradigms\\semester1\\assignment3\\a3windows\\maze4.txt"
-
 -- Useful code from Lecture 25
 -- You may use this freely in your solutions
 get :: [String] -> Int -> Int -> Char
