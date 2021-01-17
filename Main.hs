@@ -2,8 +2,6 @@ module Main (get_maze, print_maze, is_wall, place_player, move, can_move, game_l
 
 import System.Environment
 
--- Useful code from Lecture 25
--- You may use this freely in your solutions
 get :: [String] -> Int -> Int -> Char
 get maze x y = (maze !! y) !! x
 
@@ -20,8 +18,6 @@ set maze x y char =
       new_maze = modify_list maze y new_line
    in new_maze
 
----- Part A
--- Question 1
 --if path is empty return empty list
 --else read file, unbox it and then return the unboxed with lines function
 get_maze :: String -> IO [String]
@@ -31,7 +27,6 @@ get_maze path = do
   let final = lines x
   return final
 
--- Question 2
 -- if maze is empty print nothing
 -- else unline the maze and use print
 print_maze :: [String] -> IO ()
@@ -40,7 +35,6 @@ print_maze maze = do
   let final = unlines maze
   putStrLn final
 
--- Question 3
 -- if maze is empty return an error because  is_wall [] (x,y) = False doesn't make sense here 
 -- if get maze coordinates returns empty then true else false
 is_wall :: [String] -> (Int, Int) -> Bool
@@ -50,8 +44,7 @@ is_wall maze (x, y)
   | returned == '#' = True
   where returned = get maze x y
         (z,v) = get_target_position maze
-
--- Question 4
+        
 -- if maze is empty return an empty board
 -- else unbox the set function with the new char in the (x,y) position
 place_player :: [String] -> (Int, Int) -> [String]
@@ -60,8 +53,6 @@ place_player maze (x, y) = do
   setting <- set maze x y '@'
   return setting
 
----- Part B
--- Question 5
 --if dir is anything but wasd returns the same place
 -- else adds or subtracts from the location is on
 move :: (Int, Int) -> Char -> (Int, Int)
@@ -72,7 +63,6 @@ move (x, y) dir
   | dir == 'd' = (x + 1, y)
   | otherwise = (x, y)
 
--- Question 6
 -- get the place where user wants to move from move function then
 -- with that value check if is wall if its wall return false else true
 can_move :: [String] -> (Int, Int) -> Char -> Bool
@@ -81,7 +71,6 @@ can_move maze (x, y) dir = if is_wall maze movement == True then False else True
   where
     movement = move (x, y) dir
 
---Question 7
 --put everything together to be able to play the game
 game_loop :: [String] -> (Int, Int) -> IO ()
 game_loop [] (x, y) = putStrLn []
@@ -93,8 +82,6 @@ game_loop maze (x, y) = do
     then game_loop maze (move (x, y) dir)
     else game_loop maze (x, y)
 
----- Part C
--- Question 8
 -- call an auxiliary function
 get_path :: [String] -> (Int, Int) -> (Int, Int) -> [(Int, Int)]
 get_path maze start end = head (get_path_aux maze [start] end [])
@@ -116,8 +103,6 @@ get_possible_move maze start visited = filter (\x -> not (x `elem` visited)) map
                                            maped = map (move start) filtro
                                            moves = ['w', 'a', 's', 'd']
 
--- Question 9
----- Part B
 --get arguments inputed in the cmd then get the head, read the file use the line function
 --after that call the get_path function to get the possible path of the maze
 -- then print the maze with the dots using get_dotted_maze function
@@ -129,8 +114,6 @@ main = do
        let maze = lines file
            path = get_path maze (1,1) (get_target_position maze) 
        get_dotted_maze maze path
-
-
 
 --aux functions
 --if list is empty return empty list
